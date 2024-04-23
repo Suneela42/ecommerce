@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Blogs</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            padding: 20px;
+        }
+        .blog-container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+        .blog-title {
+            color: #333;
+        }
+        .blog-author {
+            color: #777;
+            font-size: 0.9em;
+        }
+        .blog-content {
+            margin-top: 10px;
+        }
+        .blog-link {
+            color: #1a0dab;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    {% for blog in blog_posts %}
+        <div class="blog-container">
+            <h2 class="blog-title">{{ blog.title }}</h2>
+            <p class="blog-author">Author: {{ blog.authorname }}</p>
+            <div class="blog-content">{{ blog.description }}</div>
+            <a href="{{ blog.link }}" class="blog-link" target="_blank">Read more</a>
+        </div>
+    {% empty %}
+        <p>No blog posts to display.</p>
+    {% endfor %}
+</body>
+</html>

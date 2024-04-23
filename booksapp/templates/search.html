@@ -1,0 +1,251 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bookapp</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"> <!-- Include Bootstrap CSS -->
+<style>
+  body, html {
+   margin: 0;
+   padding: 0;
+   font-family: 'Roboto', sans-serif;
+   height: 100vh;
+   overflow: hidden;
+ }
+ 
+ .wrapper {
+   display: grid;
+   grid-template-areas:
+     "header header"
+     "side-menu main";
+   grid-template-rows: auto 1fr;
+   grid-template-columns: 240px auto;
+   height: 100%;
+ }
+ .data-nav {
+   padding-left: 20px;
+ }
+ .auth-links a{
+   text-decoration: none;
+ }
+ .top-nav {
+   grid-area: header;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 10px;
+   background: #00154f;
+   color: white;
+ }
+ 
+ .side-menu {
+   grid-area: side-menu;
+   background: #00154f;
+   color: white;
+   padding: 1em;
+ }
+ 
+ .side-menu a {
+   color: white;
+   text-decoration: none;
+   padding: 0.5em 0;
+   display: block;
+   transition: background-color 0.3s;
+   padding-left: 15px;
+ }
+ 
+ .side-menu a:hover {
+   background-color: #f49f1c;
+   border-radius: 10px;
+ }
+ 
+ .content-area {
+   grid-area: main;
+   padding: 1em;
+   overflow-y: auto;
+ }
+ 
+ .search-bar {
+   display: flex;
+   margin-bottom: 1em;
+   border-radius: 20px;
+   padding-left: 125px;
+ }
+ 
+ .search-bar input[type=search] {
+   flex-grow: 1;
+   margin-right: 0.5em;
+   padding: 0.5em;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+ }
+ 
+ .search-bar button {
+   padding: 10px;
+   margin-left:10px;
+   background: #f49f1c;
+   color: white;
+   border: none;
+   border-radius: 4px;
+   cursor: pointer;
+ }
+ 
+ .cards {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 5em;
+ }
+ 
+ .card {
+   background: white;
+   padding: 1em;
+   border-radius: 4px;
+   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+   width: calc(40.33% - 1em); /* Adjust card width based on number of cards per row */
+   transition: transform 0.3s ease-in-out;
+ }
+ 
+ .card:hover {
+   transform: translateY(-5px);
+ }
+ 
+ .card img {
+   border-radius: 5px 5px 0 0;
+   height: 200px;
+   object-fit: cover;
+   width: 100%;
+ }
+ 
+ .card-body {
+   padding: 35px;
+ }
+ 
+ .card-title {
+   font-size: 28px;
+   font-weight: bold;
+   margin-bottom: 10px;
+ }
+ 
+ .card-text {
+   font-size: 24px;
+ }
+ 
+ .price {
+   font-size: 16px;
+   color: #007bff;
+ }
+ 
+ .buy-now-btn {
+   display: inline-block;
+   padding: 0.5em 1em;
+   background-color: #28a745;
+   color: white;
+   border: none;
+   border-radius: 4px;
+   cursor: pointer;
+   transition: background-color 0.3s;
+ }
+ 
+ .buy-now-btn:hover {
+   background-color: #218838;
+ }
+ 
+ .containerb {
+     width: 80%;
+     margin: auto;
+     overflow: hidden;
+ }
+ .blog-post {
+     background: #fff;
+     border: 1px solid #ddd;
+     margin-bottom: 20px;
+     padding: 20px;
+     border-radius: 5px;
+ }
+ .blog-post h2 {
+     margin-top: 0;
+ }
+ .blog-link {
+     text-decoration: none;
+     color: #333;
+     display: inline-block;
+     margin-top: 10px;
+     background: #0056b3;
+     color: #ffffff;
+     padding: 10px 15px;
+     border-radius: 5px;
+     transition: background-color 0.3s ease;
+ }
+ .blog-link:hover {
+     background-color: #003d82;
+ }
+ 
+ /* Styles for login and register links */
+ .auth-links a {
+   padding: 8px 12px;
+   margin-left: 10px;
+   border-radius: 4px;
+   color: wheat;
+   transition: background-color 0.3s;
+ }
+ 
+ .auth-links a:hover {
+   background-color: #555;
+ }
+ </style>
+</head>
+<body>
+  <div class="wrapper">
+    <header class="top-nav">
+      <div class="data-nav">
+        <span><h1>Career Guide</h1></span>
+      </div>
+      <div class="user-info">
+        <span><h1>{{ data }}</h1></span>
+      </div>
+      <div class="auth-links">
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Register</a>
+      </div>
+    </header>
+    
+    <aside class="side-menu">
+      <!-- <h2>Welcome to Career Guide</h2> -->
+    
+    <a href="{% url 'allbooks' %}">View Books</a>
+    <hr>
+    <a href="{% url 'vblog' %}">View Blogs</a>
+    <hr>
+    </aside>
+    
+    <main class="content-area">
+      <form action="{% url 'search' %}" method="GET" class="search-bar">
+        <input type="text" name="query" placeholder="Enter search keywords" required>
+        <button type="submit">Search</button>
+      </form>
+      
+      <div class="containerb">
+        <!-- Blog Section -->
+        {% for blog in key %}
+            <div class="blog-post">
+                <h2>{{ blog.Title }}</h2>
+                <p class="meta-info">
+                    Written by {{ blog.Author }} on {{ blog.date|date:"N d, Y" }}
+                </p>
+                <p>{{ blog.content|truncatewords:30 }}</p> <!-- Truncating to 30 words -->
+                <a href="{{ blog.link }}" class="blog-link" target="_blank">Read More</a>
+            </div>
+        {% empty %}
+            <p>No blog posts found.</p>
+        {% endfor %}
+    </div>
+      <section class="profile-logout">
+        <!-- Profile and logout links -->
+      </section>
+    </main>
+  </div>
+</body>
+</html>
